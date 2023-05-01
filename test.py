@@ -14,8 +14,11 @@ with open(img_name, "rb") as f:
 
 model_inputs = {
     'prompt': 'rihanna best quality, extremely detailed',
-    'negative_prompt': 'monochrome, lowres, bad anatomy, worst quality, low quality',
+    'n_prompt': 'monochrome, lowres, bad anatomy, worst quality, low quality',
     'num_inference_steps': 20,
+    'a_prompt' : 'a photo of a',
+    'structure' : "hough",
+    "scale": 9,
     'image_data': encoded
 }
 
