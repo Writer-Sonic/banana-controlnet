@@ -14,7 +14,7 @@ def init():
     global model
     global controlnet
 
-    controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16)
+    controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-scribble", torch_dtype=torch.float16)
     model = StableDiffusionControlNetPipeline.from_pretrained(
         "runwayml/stable-diffusion-v1-5", controlnet=controlnet, safety_checker=None, torch_dtype=torch.float16
     )
@@ -28,7 +28,13 @@ def inference(model_inputs:dict) -> dict:
 
     # Parse out your arguments
     prompt = model_inputs.get('prompt', None)
-    negative_prompt = model_inputs.get('negative_prompt', None)
+    #negative_prompt = model_inputs.get('negative_prompt', None)
+    
+    structure = model_inputs.get('structure', None)
+    scale = model_inputs.get('scale', None)
+    a_prompt = model_inputs.get('a_prompt', None)
+    n_prompt = model_inputs.get('n_prompt', None)
+    
     num_inference_steps = model_inputs.get('num_inference_steps', 20)
     image_data = model_inputs.get('image_data', None)
     if prompt == None:
@@ -54,7 +60,10 @@ def inference(model_inputs:dict) -> dict:
     output = model(
         prompt,
         canny_image,
-        negative_prompt=negative_prompt,
+        n_prompt=n_prompt,
+        a_prompt = a_prompt,
+        structure = structure,
+        scale = scale,
         num_inference_steps=num_inference_steps
     )
 
